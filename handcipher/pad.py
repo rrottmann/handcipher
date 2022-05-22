@@ -26,7 +26,7 @@ def create_pad(key: bytes = b"secret", max_columns: int = 10, alphabet: str = No
     # create alphabet
     if alphabet is None:
         alphabet = list(string.ascii_uppercase + string.digits + "= .")
-    # permutate alphabet
+    # permute alphabet
     keyhex = binascii.hexlify(key)
     permutated_alphabet = list()
     pos_alphabet = 0
@@ -131,6 +131,7 @@ def encrypt_chr(c: str, pad: dict) -> str:
 
 
 def decrypt(cipher_text: str, key: bytes) -> bytes:
+    """Decrypt a cipher_text that contains a b32 encoded clear text."""
     pad = create_pad(key=key)
     decrypted_raw = decrypt_raw(cipher_text=cipher_text, pad=pad)
     decrypted = base64.b32decode(decrypted_raw)
@@ -146,7 +147,8 @@ def decrypt_raw(cipher_text: str, pad: dict) -> str:
         if not two_chars:
             break
         decrypted_chr = decrypt_chr(two_chars=two_chars, pad=pad)
-        decrypted_raw = decrypted_raw + decrypted_chr
+        if decrypted_chr:
+            decrypted_raw = decrypted_raw + decrypted_chr
         _ += 2
         if _ > len(cipher_text):
             break

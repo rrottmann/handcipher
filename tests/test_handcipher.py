@@ -65,8 +65,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(decrypted, s)
 
 
-
-
-
 if __name__ == '__main__':
     unittest.main()
